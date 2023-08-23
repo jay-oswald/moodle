@@ -1430,7 +1430,6 @@ class grade_structure {
 
                 if ($element['object']->is_calculated()) {
                     $icon->pix = 'i/calc';
-                    $icon->title = s(get_string('calculatedgrade', 'grades'));
 
                 } else if (($is_course or $is_category) and ($is_scale or $is_value)) {
                     if ($category = $element['object']->get_item_category()) {
@@ -1438,7 +1437,6 @@ class grade_structure {
                         $stragg = $aggrstrings[$category->aggregation];
 
                         $icon->pix = 'i/calc';
-                        $icon->title = s($stragg);
 
                         switch ($category->aggregation) {
                             case GRADE_AGGREGATE_MEAN:
@@ -1458,7 +1456,6 @@ class grade_structure {
                     // Prevent outcomes displaying the same icon as the activity they are attached to.
                     if ($is_outcome) {
                         $icon->pix = 'i/outcomes';
-                        $icon->title = s(get_string('outcome', 'grades'));
                     } else {
                         $modinfo = get_fast_modinfo($element['object']->courseid);
                         $module = $element['object']->itemmodule;
@@ -1469,15 +1466,12 @@ class grade_structure {
                             $icon->pix = 'monologo';
                             $icon->component = $element['object']->itemmodule;
                         }
-                        $icon->title = s(get_string('modulename', $element['object']->itemmodule));
                     }
                 } else if ($element['object']->itemtype == 'manual') {
                     if ($element['object']->is_outcome_item()) {
                         $icon->pix = 'i/outcomes';
-                        $icon->title = s(get_string('outcome', 'grades'));
                     } else {
                         $icon->pix = 'i/manual_item';
-                        $icon->title = s(get_string('manualitem', 'grades'));
                     }
                 }
                 break;
@@ -1485,7 +1479,6 @@ class grade_structure {
             case 'category':
                 $none = false;
                 $icon->pix = 'i/folder';
-                $icon->title = s(get_string('category', 'grades'));
                 break;
         }
 
@@ -1494,9 +1487,9 @@ class grade_structure {
                 $outputstr = $OUTPUT->spacer() . ' ';
             }
         } else if (isset($icon->url)) {
-            $outputstr = html_writer::img($icon->url, $icon->title, $icon->attributes);
+            $outputstr = html_writer::img($icon->url, '', $icon->attributes);
         } else {
-            $outputstr = $OUTPUT->pix_icon($icon->pix, $icon->title, $icon->component, $icon->attributes);
+            $outputstr = $OUTPUT->pix_icon($icon->pix, '', $icon->component, $icon->attributes);
         }
 
         return $outputstr;
