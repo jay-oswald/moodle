@@ -61,6 +61,10 @@ if (($hassiteconfig || has_any_capability(array(
             new lang_string('allowcoursebadges', 'badges'),
             new lang_string('allowcoursebadges_desc', 'badges'), 1));
 
+    $globalsettings->add(new admin_setting_configcheckbox('badges_logerrors',
+            new lang_string('badgelogerrors', 'badges'),
+            new lang_string('badgelogerrors_desc', 'badges', 'badges'), 1));
+
     $globalsettings->add(new admin_setting_configcheckbox('badges_allowexternalbackpack',
             new lang_string('allowexternalbackpack', 'badges'),
             new lang_string('allowexternalbackpack_desc', 'badges'), 1));

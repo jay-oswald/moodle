@@ -69,6 +69,7 @@ class badges_cron_task extends scheduled_task {
             ];
             $params = array_merge($badgeparams, $courseparams);
             $badges = $DB->get_fieldset_sql($sql, $params);
+            $errors = [];
 
             mtrace('Started reviewing available badges.');
             foreach ($badges as $bid) {
@@ -79,7 +80,13 @@ class badges_cron_task extends scheduled_task {
                         mtrace('Processing badge "' . $badge->name . '"...');
                     }
 
-                    $issued = $badge->review_all_criteria();
+                    try {
+                        $issued = $badge->review_all_criteria();
+                    } catch (\Exception $e) {
+                        mtrace($e->getMessage());
+                        $errors[] = $e;
+                        $issued = 0;
+                    }
 
                     if (debugging()) {
                         mtrace('...badge was issued to ' . $issued . ' users.');
@@ -89,6 +96,16 @@ class badges_cron_task extends scheduled_task {
             }
 
             mtrace('Badges were issued ' . $total . ' time(s).');
+
+            if (count($errors) > 0) {
+                mtrace("Total Errors: " . count($errors) . " all listed below.");
+                foreach ($errors as $error) {
+                    mtrace($error->getMessage());
+                }
+                if ($CFG->badges_logerrors) {
+                    throw $error;
+                }
+            }
         }
     }
 }
