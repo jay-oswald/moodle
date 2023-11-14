@@ -144,6 +144,8 @@ $string['badgedetails'] = 'Badge details';
 $string['badgeimage'] = 'Image';
 $string['badgeimage_help'] = 'The image should be at least 300 x 300 pixels in size. It will be displayed as 300 x 300 pixels on the badge page and 100 x 100 pixels on the user\'s profile page.';
 $string['badgeissued'] = 'Badge issued';
+$string['badgelogerrors'] = "Log badge errors";
+$string['badgelogerrors_desc'] = "If enabled, misconfigured badges will show errors in the scheduled task log, this can delay future task runs.";
 $string['badgeprivacysetting'] = 'Badge privacy settings';
 $string['badgeprivacysetting_help'] = 'Badges you earn can be displayed on your account profile page. This setting allows you to automatically set the visibility of the newly earned badges.
 
