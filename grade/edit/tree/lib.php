@@ -101,10 +101,10 @@ class grade_edit_tree {
 
         $object = $element['object'];
         $eid    = $element['eid'];
-        $name = $this->gtree->get_element_header($element, true, false, true, false, true);
-        $icon = $this->gtree->get_element_icon($element);
-        $type = $this->gtree->get_element_type_string($element);
-        $strippedname = $this->gtree->get_element_header($element, false, false, false);
+        $name = grade_helper::get_element_header($element, true, false, true, false, true);
+        $icon = grade_helper::get_element_icon($element);
+        $type = grade_helper::get_element_type_string($element);
+        $strippedname = grade_helper::get_element_header($element, false, false, false);
         $is_category_item = false;
         if ($element['type'] == 'categoryitem' || $element['type'] == 'courseitem') {
             $is_category_item = true;
@@ -158,7 +158,7 @@ class grade_edit_tree {
             $level++;
             $this->categories[$object->id] = $strippedname;
             $category = grade_category::fetch(array('id' => $object->id));
-            $item = $category->get_grade_item();
+            $category->load_grade_item();
 
             // Add aggregation coef input if not a course item and if parent category has correct aggregation type
             // Before we print the category's row, we must find out how many rows will appear below it (for the filler cell's rowspan)
@@ -271,7 +271,13 @@ class grade_edit_tree {
             $categoryrow->id = 'grade-item-' . $eid;
             $categoryrow->attributes['class'] = $courseclass . ' category ';
             $categoryrow->attributes['data-category'] = $eid;
-            $categoryrow->attributes['data-itemid'] = $category->get_grade_item()->id;
+            if (!empty($parent_eid)) {
+                $categoryrow->attributes['data-parent-category'] = $parent_eid;
+            }
+            $categoryrow->attributes['data-aggregation'] = $category->aggregation;
+            $categoryrow->attributes['data-grademax'] = $category->grade_item->grademax;
+            $categoryrow->attributes['data-aggregationcoef'] = floatval($category->grade_item->aggregationcoef);
+            $categoryrow->attributes['data-itemid'] = $category->grade_item->id;
             $categoryrow->attributes['data-hidden'] = 'false';
             foreach ($rowclasses as $class) {
                 $categoryrow->attributes['class'] .= ' ' . $class;
@@ -341,6 +347,10 @@ class grade_edit_tree {
             // collapsed and the aggregated max grade is not visible.
             if (!empty($categoryitemclass)) {
                 $gradeitemrow->attributes['data-aggregationforcategory'] = $parent_eid;
+            } else {
+                $gradeitemrow->attributes['data-parent-category'] = $parent_eid;
+                $gradeitemrow->attributes['data-grademax'] = $object->grademax;
+                $gradeitemrow->attributes['data-aggregationcoef'] = floatval($object->aggregationcoef);
             }
             foreach ($rowclasses as $class) {
                 $gradeitemrow->attributes['class'] .= ' ' . $class;
@@ -360,7 +370,7 @@ class grade_edit_tree {
                             'moveaction' => $moveaction,
                             'itemtype' => $object->itemtype,
                             'icon' => $icon,
-                            'type' => $type
+                            'type' => $type,
                         ]
                     );
                 }
@@ -831,12 +841,12 @@ class grade_edit_tree_column_name extends grade_edit_tree_column {
                 'id' => 'select_category_' . $category->id,
                 'name' => $togglegroup,
                 'value' => 1,
-                'classes' => 'itemselect ignoredirty mr-2',
+                'classes' => 'itemselect ignoredirty',
                 'label' => $masterlabel,
                 // Consistent label to prevent the select column from resizing.
                 'selectall' => $masterlabel,
                 'deselectall' => $masterlabel,
-                'labelclasses' => 'accesshide m-0',
+                'labelclasses' => 'accesshide',
             ]);
 
             $mastercheckbox = $OUTPUT->render($mastercheckbox);
@@ -885,7 +895,7 @@ class grade_edit_tree_column_name extends grade_edit_tree_column {
                 'name' => $checkboxid,
                 'label' => $label,
                 'labelclasses' => 'accesshide',
-                'classes' => 'itemselect ignoredirty mr-2',
+                'classes' => 'itemselect ignoredirty',
             ]);
             $checkbox = $OUTPUT->render($checkbox);
         }
@@ -1058,6 +1068,8 @@ class grade_edit_tree_column_status extends grade_edit_tree_column {
      */
     public function get_category_cell($category, $levelclass, $params) {
         global $OUTPUT, $gtree;
+
+        $category->load_grade_item();
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
         $element = [];
         $element['object'] = $category;

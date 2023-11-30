@@ -199,6 +199,7 @@ $string['backupfromthissite'] = 'Backup was made on this site?';
 $string['backupgradebookhistoryhelp'] = 'If enabled then gradebook history will be included in automated backups. Note that grade history must not be disabled in server settings (disablegradehistory) in order for this to work';
 $string['backupincludemoduleshelp'] = 'Choose whether you want to include course modules, with or without user data, in automated backups';
 $string['backupincludemoduleuserdatahelp'] = 'Choose whether you want to include module user data in automated backups.';
+$string['backupinfo'] = 'Make a copy of this course, including all content and activity up to date. You can use the backup file to restore this course or to use in a different site.';
 $string['backuplogdetailed'] = 'Detailed execution log';
 $string['backuploglaststatus'] = 'Last execution log';
 $string['backupmissinguserinfoperms'] = 'Note: This backup contains no user data. Exercise and Workshop activities will not be included in the backup, since these modules are not compatible with this type of backup.';
@@ -226,7 +227,9 @@ $string['blocksuccess'] = '{$a} tables have been set up correctly';
 $string['brief'] = 'Brief';
 $string['bulkactions'] = 'Bulk actions';
 $string['bulkactionselect'] = '{$a} bulk action selection';
+$string['bulkcancel'] = 'Close bulk edit';
 $string['bulkmovecoursessuccess'] = 'Successfully moved {$a->courses} courses into {$a->category}';
+$string['bulkselection'] = '{$a} selected';
 $string['bycourseorder'] = 'By course order';
 $string['byname'] = 'by {$a}';
 $string['bypassed'] = 'Bypassed';
@@ -301,6 +304,7 @@ $string['contentbank'] = 'Content bank';
 $string['context'] = 'Context';
 $string['contextlevel'] = 'Context level';
 $string['contextname'] = 'Context name';
+$string['contextparent'] = 'Parent';
 $string['contexturl'] = 'Context URL';
 $string['continue'] = 'Continue';
 $string['continuetocourse'] = 'Click here to enter your course';
@@ -410,14 +414,18 @@ $string['courserequestdetails'] = 'Details of the course you are requesting';
 $string['courserequestfailed'] = 'For some reason, your course request could not be saved';
 $string['courserequestintro'] = 'Use this form to request a course to be created for you.<br />Try and fill in as much information as you can to allow<br />the administrators to understand your reasons for wanting this course.';
 $string['courserequestreason'] = 'Reasons for wanting this course';
+$string['courserequestroleerror'] = 'The creators\' role in new courses configuration is invalid. Please see <a href="{$a}">user policies</a>.';
 $string['courserequestsuccess'] = 'Your course request has been saved successfully. You will be sent an email to inform you whether your request was approved.';
 $string['courserequestsupport'] = 'Supporting information to help the administrator evaluate this request';
 $string['courserequestwarning'] = 'The user requesting this course will be automatically enrolled and assigned the role of {$a}.';
 $string['courserestore'] = 'Course restore';
 $string['coursereuse'] = 'Course reuse';
+$string['coursereusenavigationmenu'] = 'Course reuse navigation menu';
 $string['courses'] = 'Courses';
 $string['coursesectionsummaries'] = 'Course section summaries';
-$string['coursesectiontitle'] = 'Course: {$a->course}, {$a->sectionname}: {$a->sectiontitle}';
+$string['coursesectiontitle'] = '{$a->sectionname}: {$a->sectiontitle} | {$a->course}';
+$string['coursesectiontitlebulkediting'] = 'Bulk edit {$a->sectionname}: {$a->sectiontitle} | {$a->course}';
+$string['coursesectiontitleediting'] = 'Edit {$a->sectionname}: {$a->sectiontitle} | {$a->course}';
 $string['coursesettings'] = 'Course default settings';
 $string['coursesmovedout'] = 'Courses moved out from {$a}';
 $string['coursespending'] = 'Courses pending approval';
@@ -431,6 +439,8 @@ $string['coursestart'] = 'Course start';
 $string['coursesummary'] = 'Course summary';
 $string['coursesummary_help'] = 'A short description of your course. The content you add here is searchable.';
 $string['coursetitle'] = 'Course: {$a->course}';
+$string['coursetitlebulkediting'] = 'Bulk edit course: {$a->course}';
+$string['coursetitleediting'] = 'Edit course: {$a->course}';
 $string['courseupdates'] = 'Course updates';
 $string['coursevisibility'] = 'Course visibility';
 $string['coursevisibility_help'] = '* Show: The course appears in the list of courses and students can access it.
@@ -476,6 +486,7 @@ $string['currentlanguage'] = 'Current language';
 $string['currentlocaltime'] = 'your current local time';
 $string['currentpicture'] = 'Current picture';
 $string['currentrelease'] = 'Current release information';
+$string['currenttheme'] = 'Current theme';
 $string['currentversion'] = 'Current version';
 $string['databasechecking'] = 'Upgrading Moodle database from version {$a->oldversion} to {$a->newversion}';
 $string['databaseperformance'] = 'Database performance';
@@ -751,10 +762,6 @@ Someone (probably you) has requested a new password for your account on \'{$a->s
 
 Unfortunately passwords cannot be reset on this site. Please contact the site administrator {$a->admin}.';
 $string['emailpasswordchangeinfosubject'] = '{$a}: Change password information';
-$string['emailpasswordsent'] = 'Thank you for confirming the change of password.
-An email containing your new password has been sent to your address at<br /><b>{$a->email}</b>.<br />
-The new password was automatically generated - you might like to
-<a href="{$a->link}">change your password</a> to something easier to remember.';
 $string['emailresetconfirmation'] = 'Hi {$a->firstname},
 
 A password reset was requested for your account \'{$a->username}\' at {$a->sitename}.
@@ -971,7 +978,7 @@ This program is free software; you can redistribute it and/or modify it under th
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-See the Moodle License information page for full details: https://docs.moodle.org/dev/License';
+See the Moodle License information page for full details: https://moodledev.io/general/license';
 $string['gpllicense'] = 'GPL license';
 $string['gpl3'] = 'Copyright (C) 1999 onwards Martin Dougiamas (https://moodle.com)
 
@@ -979,7 +986,7 @@ This program is free software: you can redistribute it and/or modify it under th
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-See the Moodle License information page for full details: https://docs.moodle.org/dev/License';
+See the Moodle License information page for full details: https://moodledev.io/general/license';
 $string['grades'] = 'Grades';
 $string['gradenoun'] = 'Grade';
 $string['gradeverb'] = 'Grade';
@@ -1058,6 +1065,7 @@ $string['changepassword'] = 'Change password';
 $string['changessaved'] = 'Changes saved';
 $string['check'] = 'Check';
 $string['checkactual'] = 'Actual';
+$string['checkerror'] = 'Error getting result of check \'{$a}\'. Check the browser console for more information.';
 $string['checkexpected'] = 'Expected';
 $string['checks'] = 'Checks';
 $string['checksok'] = 'All \'{$a}\' checks OK';
@@ -1068,6 +1076,7 @@ $string['checkingforbbexport'] = 'Checking for BlackBoard export';
 $string['checkinginstances'] = 'Checking instances';
 $string['checkingsections'] = 'Checking sections';
 $string['checklanguage'] = 'Check language';
+$string['checkloading'] = 'Getting the result of check \'{$a}\'';
 $string['checknone'] = 'Check none';
 $string['childcoursenotfound'] = 'Child course not found!';
 $string['childcourses'] = 'Child courses';
@@ -1108,6 +1117,7 @@ $string['importdata'] = 'Import course data';
 $string['importdataexported'] = 'Exported data from \'from\' course successfully.<br /> Continue to import into your \'to\' course.';
 $string['importdatafinished'] = 'Import complete! Continue to your course';
 $string['importdatafrom'] = 'Find a course to import data from:';
+$string['importinfo'] = 'Import items from other courses, such as activities, blocks or calendar events. No user data will be imported.';
 $string['inactive'] = 'Inactive';
 $string['include'] = 'Include';
 $string['includeallusers'] = 'Include all users';
@@ -1248,7 +1258,6 @@ $string['mailteachers'] = 'Inform teachers';
 $string['maincoursepage'] = 'Main course page';
 $string['makeafolder'] = 'Create folder';
 $string['makeavailable'] = 'Make available';
-$string['makeavailablecmtitle'] = 'Make activity available';
 $string['makeeditable'] = 'If you make \'{$a}\' editable by the web server process (eg apache) then you could edit this file directly from this page';
 $string['makethismyhome'] = 'Make this my home page';
 $string['makeunavailable'] = 'Make unavailable';
@@ -1350,7 +1359,6 @@ $string['missingusername'] = 'Missing username';
 $string['moddoesnotsupporttype'] = 'Module {$a->modname} does not support uploads of type {$a->type}';
 $string['modhide'] = 'Hide';
 $string['modshow'] = 'Show';
-$string['modshowcmtitle'] = 'Show activity';
 $string['modvisible'] = 'Availability';
 $string['modvisible_help'] = '* Show on course page: Available to students (subject to any access restrictions which may be set).
 * Hide on course page: Not available to students.';
@@ -1375,22 +1383,33 @@ $string['moodleversion'] = 'Moodle version';
 $string['moodlerelease'] = 'Moodle release';
 $string['moodleservicesandsupport'] = 'Services and support';
 $string['moodlenet:cannotconnecttoserver'] = 'Cannot connect to MoodleNet server';
+$string['moodlenet:columnname'] = 'Name';
+$string['moodlenet:columnsenddate'] = 'Send date';
+$string['moodlenet:columnsendstatus'] = 'Send status';
+$string['moodlenet:columntype'] = 'Type';
 $string['moodlenet:configoauthservice'] = 'Select a MoodleNet OAuth 2 service to enable sharing to that MoodleNet site. If the service doesn\'t exist yet, you will need to <a href="{$a}">create</a> it.';
+$string['moodlenet:deletedactivity'] = 'Deleted activity';
+$string['moodlenet:deletedcourse'] = 'Deleted course';
 $string['moodlenet:eventresourceexported'] = 'Resource exported';
 $string['moodlenet:gotomoodlenet'] = 'Go to MoodleNet drafts';
-$string['moodlenet:issuerisnotauthorized'] = 'MoodleNet issuer is not authorized';
+$string['moodlenet:issuerisnotauthorized'] = 'MoodleNet issuer is not authorised';
 $string['moodlenet:issuerisnotenabled'] = 'MoodleNet issuer is not enabled';
 $string['moodlenet:issuerisnotset'] = 'MoodleNet issuer is not set at site administration';
+$string['moodlenet:nosharedresources'] = 'There are no shared resources to display at this time.';
 $string['moodlenet:outboundsettings'] = 'MoodleNet outbound settings';
-$string['moodlenet:sharenotice'] = 'You are sharing this to MoodleNet as a {$a}';
+$string['moodlenet:sharenoticeactivity'] = 'This activity is being shared with MoodleNet as a resource.';
+$string['moodlenet:sharenoticecourse'] = 'This course is being shared with MoodleNet as a resource.';
+$string['moodlenet:sharenoticepartial'] = 'The selected activities are being shared with MoodleNet as a resource.';
+$string['moodlenet:sharenoticepartialactivitynumber'] = '{$a} activities will be included in the course.';
 $string['moodlenet:sharefailtitle'] = 'Something went wrong';
 $string['moodlenet:sharefailtext'] = 'There was an error sharing your content to MoodleNet.<br>Please try again later.';
 $string['moodlenet:sharefailtextwithsitesupport'] = 'There was an error sharing your content to MoodleNet.<br>Please try again later or <a href="{$a}">contact site support</a>.';
 $string['moodlenet:sharefilesizelimitexceeded'] = 'The size of the resource being shared ({$a->filesize} bytes) exceeds the limit of {$a->filesizelimit} bytes.';
+$string['moodlenet:shareprogress'] = 'MoodleNet share progress';
+$string['moodlenet:shareprogressinfo'] = 'The list shows courses and activities you have shared to MoodleNet.<br>Click the resource name to view in MoodleNet.';
 $string['moodlenet:sharesuccesstitle'] = 'Saved to MoodleNet drafts';
 $string['moodlenet:sharesuccesstext'] = "Almost done! Visit your drafts in MoodleNet to finish sharing your content.";
 $string['moodlenet:sharetomoodlenet'] = 'Share to MoodleNet';
-$string['moodlenet:sharetyperesource'] = 'resource';
 $string['moodlenet:sharingstatus'] = 'Sharing to MoodleNet';
 $string['moodlenet:sharinglargefile'] = "Large files can take some time.";
 $string['moodlenet:sharingto'] = 'Sharing to: ';
@@ -1647,23 +1666,15 @@ $string['participantslist'] = 'Participants list';
 $string['participationratio'] = 'Participation ratio';
 $string['participationreport'] = 'Participation report';
 $string['password'] = 'Password';
-$string['passwordconfirmchange'] = 'Confirm password change';
 $string['passwordextlink'] = 'The following link has been provided to recover your lost password. This will take you out of Moodle.';
 $string['passwordforgotten'] = 'Forgotten password';
 $string['passwordforgotteninstructions'] = 'Your details must first be found in the user database. Please enter <strong>either</strong> your username or your registered email address in the appropriate box. There is no need to enter both.';
 $string['passwordforgotteninstructions2'] = 'To reset your password, submit your username or your email address below. If we can find you in the database, an email will be sent to your email address, with instructions how to get access again.';
 $string['passwordchanged'] = 'Password has been changed';
-$string['passwordnohelp'] = 'No help is available to find your lost password. Please contact your Moodle administrator.';
 $string['passwordpolicynomatch'] = 'Your current password no longer matches the set password policy.
    {$a}';
-$string['passwordrecovery'] = 'Yes, help me log in';
 $string['passwordsdiffer'] = 'These passwords do not match';
-$string['passwordsent'] = 'Password has been sent';
 $string['passwordset'] = 'Your password has been set.';
-$string['passwordsenttext'] = '<p>An email has been sent to your address at {$a->email}.</p>
-   <p><b>Please check your email for your new password</b></p>
-   <p>The new password was automatically generated, so you might like to
-   <a href="{$a->link}">change it to something easier to remember</a>.</p>';
 $string['path'] = 'Path';
 $string['pathnotexists'] = 'Path doesn\'t exist in your server!';
 $string['pathslasherror'] = 'Path can\'t end with a slash!!';
@@ -1719,6 +1730,7 @@ $string['preprocessingbackupfile'] = 'Preprocessing backup file';
 $string['prev'] = 'Prev';
 $string['preview'] = 'Preview';
 $string['previeworchoose'] = 'Preview or choose a theme';
+$string['previewthemename'] = 'Preview theme \'{$a}\'';
 $string['previous'] = 'Previous';
 $string['previouslyselectedusers'] = 'Previously selected users not matching \'{$a}\'';
 $string['previouspage'] = 'Previous page';
@@ -1746,6 +1758,14 @@ $string['privacy:metadata:log:module'] = 'module';
 $string['privacy:metadata:log:time'] = 'The time when the action took place';
 $string['privacy:metadata:log:url'] = 'The URL related to the event';
 $string['privacy:metadata:log:userid'] = 'The ID of the user who performed the action';
+$string['privacy:metadata:moodlenet_share_progress'] = 'MoodleNet share progress details';
+$string['privacy:metadata:moodlenet_share_progress:type'] = 'The type of share that was performed';
+$string['privacy:metadata:moodlenet_share_progress:courseid'] = 'The associated course ID';
+$string['privacy:metadata:moodlenet_share_progress:cmid'] = 'The associated course module ID';
+$string['privacy:metadata:moodlenet_share_progress:userid'] = 'The user that performed the share';
+$string['privacy:metadata:moodlenet_share_progress:timecreated'] = 'The time the share was performed';
+$string['privacy:metadata:moodlenet_share_progress:resourceurl'] = 'The returned URL from MoodleNet after a successful share';
+$string['privacy:metadata:moodlenet_share_progress:status'] = 'The resulting status of the share';
 $string['privacy:metadata:oauth2_refresh_token'] = 'Refresh token used in OAuth 2.0 communication';
 $string['privacy:metadata:oauth2_refresh_token:issuerid'] = 'The ID of the issuer to which the token corresponds';
 $string['privacy:metadata:oauth2_refresh_token:scopehash'] = 'The ID of the user to whom the token corresponds';
@@ -1846,7 +1866,7 @@ $string['resendemail'] = 'Resend email';
 $string['reset'] = 'Reset';
 $string['resetcomponent'] = 'Component';
 $string['resetcourse'] = 'Reset course';
-$string['resetinfo'] = 'This page allows you to empty a course of user data, while retaining the activities and other settings.  Please be warned that by choosing items below and submitting this page you will delete your chosen user data from this course forever!';
+$string['resetinfo'] = 'Delete all user data and reset this course to its original state, keeping activities and settings intact.';
 $string['resetnotimplemented'] = 'Reset not implemented';
 $string['resetrecordexpired'] = 'The password reset link you used is more than {$a} minutes old and has expired. Please initiate a new password reset.';
 $string['resetstartdate'] = 'Reset start date';
@@ -1879,6 +1899,7 @@ $string['restorecoursenow'] = 'Restore this course now!';
 $string['restoredaccount'] = 'Restored account';
 $string['restoredaccountinfo'] = 'This account was imported from another server and the password has been lost. To set a new password by email, please click "Continue"';
 $string['restorefinished'] = 'Restore completed successfully';
+$string['restoreinfo'] = 'Use a backup file to restore a previous version of a course, or to create a new course.';
 $string['restoreto'] = 'Restore to';
 $string['restoretositeadding'] = 'Warning: You are about to restore to the site home, adding data to it!';
 $string['restoretositedeleting'] = 'Warning: You are about to restore to the site home, deleting data from it first!';
@@ -1992,7 +2013,10 @@ $string['selectperiod'] = 'Select period';
 $string['selectcategorysort'] = 'Which categories would you like to sort?';
 $string['selectcategorysortby'] = 'Select how you would like to sort categories';
 $string['selectcoursesortby'] = 'Select how you would like to sort courses';
+$string['selecttheme'] = 'Select theme';
+$string['selectthemename'] = 'Select theme \'{$a}\'';
 $string['senddetails'] = 'Send my details via email';
+$string['sent'] = 'Sent';
 $string['separate'] = 'Separate';
 $string['separateandconnected'] = 'Separate and Connected ways of knowing';
 $string['separateandconnectedinfo'] = 'The scale based on the theory of separate and connected knowing. This theory describes two different ways that we can evaluate and learn about the things we see and hear.<ul><li><strong>Separate knowers</strong> remain as objective as possible without including feelings and emotions. In a discussion with other people, they like to defend their own ideas, using logic to find holes in opponent\'s ideas.</li><li><strong>Connected knowers</strong> are more sensitive to other people. They are skilled at empathy and tend to listen and ask questions until they feel they can connect and "understand things from their point of view". They learn by trying to share the experiences that led to the knowledge they find in other people.</li></ul>';
@@ -2149,6 +2173,7 @@ $string['statsuserreads'] = 'Views';
 $string['statsuserwrites'] = 'Posts';
 $string['statswrites'] = 'Posts';
 $string['status'] = 'Status';
+$string['statuschecks'] = 'Status checks';
 $string['statuscritical'] = 'Critical';
 $string['statusinfo'] = 'Info';
 $string['statusna'] = 'N/A';
@@ -2229,6 +2254,8 @@ $string['timesplitting:tenpercentafterstart'] = '10% after start';
 $string['timesplitting:tenpercentafterstart_help'] = 'This analysis interval generates a prediction after the 10% of the course is completed.';
 $string['thanks'] = 'Thanks';
 $string['theme'] = 'Theme';
+$string['themepreviewdescription'] = '{$a} theme description';
+$string['themepreviewimage'] = '{$a} preview image';
 $string['themes'] = 'Themes';
 $string['themesaved'] = 'New theme saved';
 $string['thereareno'] = 'There are no {$a} in this course';
@@ -2346,7 +2373,10 @@ $string['userpic'] = 'User picture';
 $string['users'] = 'Users';
 $string['userselectorautoselectunique'] = 'If only one user matches the search, select them automatically';
 $string['userselectorpreserveselected'] = 'Keep selected users, even if they no longer match the search';
-$string['userselectorsearchanywhere'] = 'Match the search text anywhere in the displayed fields';
+$string['userselectorsearchmatching'] = 'Matching:';
+$string['userselectorsearchfromstart'] = 'from start';
+$string['userselectorsearchanywhere'] = 'anywhere';
+$string['userselectorsearchexactmatchonly'] = 'exact matches only';
 $string['usersnew'] = 'New users';
 $string['usersnoaccesssince'] = 'Inactive for more than';
 $string['userpreferences'] = 'User preferences';
@@ -2452,3 +2482,20 @@ $string['supplyinfo'] = 'More details';
 
 // Deprecated since Moodle 4.3.
 $string['clicktochangeinbrackets'] = '{$a} (Click to change)';
+$string['modshowcmtitle'] = 'Show activity';
+$string['makeavailablecmtitle'] = 'Make activity available';
+$string['moodlenet:sharetyperesource'] = 'resource';
+
+// Deprecated since Moodle 4.4.
+$string['emailpasswordsent'] = 'Thank you for confirming the change of password.
+An email containing your new password has been sent to your address at<br /><b>{$a->email}</b>.<br />
+The new password was automatically generated - you might like to
+<a href="{$a->link}">change your password</a> to something easier to remember.';
+$string['passwordsenttext'] = '<p>An email has been sent to your address at {$a->email}.</p>
+   <p><b>Please check your email for your new password</b></p>
+   <p>The new password was automatically generated, so you might like to
+   <a href="{$a->link}">change it to something easier to remember</a>.</p>';
+$string['passwordsent'] = 'Password has been sent';
+$string['passwordrecovery'] = 'Yes, help me log in';
+$string['passwordconfirmchange'] = 'Confirm password change';
+$string['passwordnohelp'] = 'No help is available to find your lost password. Please contact your Moodle administrator.';

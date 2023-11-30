@@ -124,8 +124,12 @@ class api {
                         $langs = $stringmanager->get_list_of_translations(true);
                         foreach ($langs as $langid => $langname) {
                             foreach ($addoninfo['lang'] as $stringinfo) {
-                                $lang[$langid][$stringinfo[0]] =
-                                    $stringmanager->get_string($stringinfo[0], $stringinfo[1], null, $langid);
+                                $lang[$langid][$stringinfo[0]] = $stringmanager->get_string(
+                                    $stringinfo[0],
+                                    $stringinfo[1] ?? '',
+                                    null,
+                                    $langid,
+                                );
                             }
                         }
                     }
@@ -364,13 +368,23 @@ class api {
             $settings->enabledashboard = $CFG->enabledashboard;
         }
 
-        if (empty($section) || $section === 'themesettings') {
+        if (empty($section) || ($section === 'themesettings' || $section === 'themesettingsadvanced')) {
             $settings->customusermenuitems = $CFG->customusermenuitems;
         }
 
         if (empty($section) || $section === 'locationsettings') {
             $settings->timezone = $CFG->timezone;
             $settings->forcetimezone = $CFG->forcetimezone;
+        }
+
+        if (empty($section) || $section === 'manageglobalsearch') {
+            $settings->searchengine = $CFG->searchengine;
+            $settings->searchenablecategories = $CFG->searchenablecategories;
+            $settings->searchdefaultcategory = $CFG->searchdefaultcategory;
+            $settings->searchhideallcategory = $CFG->searchhideallcategory;
+            $settings->searchmaxtopresults = $CFG->searchmaxtopresults;
+            $settings->searchbannerenable = $CFG->searchbannerenable;
+            $settings->searchbanner = $CFG->searchbanner;
         }
 
         return $settings;
@@ -501,6 +515,7 @@ class api {
             'comments' => 'CoreBlockDelegate_AddonBlockComments',
             'completionstatus' => 'CoreBlockDelegate_AddonBlockCompletionStatus',
             'feedback' => 'CoreBlockDelegate_AddonBlockFeedback',
+            'globalsearch' => 'CoreBlockDelegate_AddonBlockGlobalSearch',
             'glossary_random' => 'CoreBlockDelegate_AddonBlockGlossaryRandom',
             'html' => 'CoreBlockDelegate_AddonBlockHtml',
             'lp' => 'CoreBlockDelegate_AddonBlockLp',
@@ -509,6 +524,7 @@ class api {
             'private_files' => 'CoreBlockDelegate_AddonBlockPrivateFiles',
             'recent_activity' => 'CoreBlockDelegate_AddonBlockRecentActivity',
             'rss_client' => 'CoreBlockDelegate_AddonBlockRssClient',
+            'search_forums' => 'CoreBlockDelegate_AddonBlockSearchForums',
             'selfcompletion' => 'CoreBlockDelegate_AddonBlockSelfCompletion',
             'tags' => 'CoreBlockDelegate_AddonBlockTags',
         );
@@ -535,6 +551,7 @@ class api {
                 'CoreFilterDelegate' => new lang_string('type_filter_plural', 'plugin'),
                 'CoreReportBuilderDelegate' => new lang_string('reportbuilder', 'core_reportbuilder'),
                 'NoDelegate_CoreUserSupport' => new lang_string('contactsitesupport', 'admin'),
+                'NoDelegate_GlobalSearch' => new lang_string('globalsearch', 'search'),
             ),
             "$mainmenu" => array(
                 '$mmSideMenuDelegate_mmaFrontpage' => new lang_string('sitehome'),

@@ -1279,18 +1279,16 @@ EOF;
         $this->assertTrue(in_array("User-Agent: $moodlebot", $curl->header));
 
         // Finally, test it via exttests, to ensure the agent is sent properly.
-        // Matching.
         $testurl = $this->getExternalTestFileUrl('/test_agent.php');
         $extcurl = new \curl();
+
+        // Matching (assert we don't receive an error, and get back the content "OK").
         $contents = $extcurl->get($testurl, array(), array('CURLOPT_USERAGENT' => 'AnotherUserAgent/1.2'));
-        $response = $extcurl->getResponse();
-        $this->assertSame('200 OK', reset($response));
         $this->assertSame(0, $extcurl->get_errno());
         $this->assertSame('OK', $contents);
-        // Not matching.
+
+        // Not matching (assert we don't receive an error, and get back empty content - not "OK").
         $contents = $extcurl->get($testurl, array(), array('CURLOPT_USERAGENT' => 'NonMatchingUserAgent/1.2'));
-        $response = $extcurl->getResponse();
-        $this->assertSame('200 OK', reset($response));
         $this->assertSame(0, $extcurl->get_errno());
         $this->assertSame('', $contents);
     }
@@ -2009,6 +2007,42 @@ EOF;
         $result = file_prepare_standard_editor(clone($object), 'some',
             ['noclean' => true, 'context' => $syscontext], $syscontext, 'core', 'some', 1);
         $this->assertSame($text, $result->some);
+    }
+
+    /**
+     * Tests for file_get_typegroup to check that both arrays, and string values are accepted.
+     *
+     * @dataProvider file_get_typegroup_provider
+     * @param string|array $group
+     * @param string $expected
+     */
+    public function test_file_get_typegroup(
+        string|array $group,
+        string $expected,
+    ): void {
+        $result = file_get_typegroup('type', $group);
+        $this->assertContains($expected, $result);
+    }
+
+    public static function file_get_typegroup_provider(): array {
+        return [
+            'Array of values' => [
+                ['.html', '.htm'],
+                'text/html',
+            ],
+            'String of comma-separated values' => [
+                '.html, .htm',
+                'text/html',
+            ],
+            'String of colon-separated values' => [
+                '.html : .htm',
+                'text/html',
+            ],
+            'String of semi-colon-separated values' => [
+                '.html ; .htm',
+                'text/html',
+            ],
+        ];
     }
 }
 

@@ -358,10 +358,10 @@ class mod_lesson_mod_form extends moodleform_mod {
      **/
     public function data_preprocessing(&$defaultvalues) {
         if (isset($defaultvalues['conditions'])) {
-            $conditions = unserialize($defaultvalues['conditions']);
-            $defaultvalues['timespent'] = $conditions->timespent;
-            $defaultvalues['completed'] = $conditions->completed;
-            $defaultvalues['gradebetterthan'] = $conditions->gradebetterthan;
+            $conditions = unserialize_object($defaultvalues['conditions']);
+            $defaultvalues['timespent'] = $conditions->timespent ?? 0;
+            $defaultvalues['completed'] = !empty($conditions->completed);
+            $defaultvalues['gradebetterthan'] = $conditions->gradebetterthan ?? 0;
         }
 
         // Set up the completion checkbox which is not part of standard data.
@@ -412,8 +412,8 @@ class mod_lesson_mod_form extends moodleform_mod {
         $completionendreachedel = 'completionendreached' . $suffix;
         $mform->addElement(
             'checkbox', $completionendreachedel,
-            get_string('completionendreached', 'lesson'),
-            get_string('completionendreached_desc', 'lesson')
+            '',
+            get_string('completionendreached', 'lesson')
         );
         // Enable this completion rule by default.
         $mform->setDefault($completionendreachedel, 1);
@@ -424,14 +424,14 @@ class mod_lesson_mod_form extends moodleform_mod {
             'checkbox',
             $completiontimespentenabledel,
             '',
-            get_string('completiontimespent', 'lesson')
+            get_string('completiontimespentgroup', 'lesson')
         );
         $completiontimespentel = 'completiontimespent' . $suffix;
         $group[] =& $mform->createElement('duration', $completiontimespentel, '', ['optional' => false]);
         $completiontimespentgroupel = 'completiontimespentgroup' . $suffix;
-        $mform->addGroup($group, $completiontimespentgroupel, get_string('completiontimespentgroup', 'lesson'), ' ', false);
-        $mform->disabledIf($completiontimespentel . '[number]', $completiontimespentenabledel, 'notchecked');
-        $mform->disabledIf($completiontimespentel . '[timeunit]', $completiontimespentenabledel, 'notchecked');
+        $mform->addGroup($group, $completiontimespentgroupel, '', ' ', false);
+        $mform->hideIf($completiontimespentel . '[number]', $completiontimespentenabledel, 'notchecked');
+        $mform->hideIf($completiontimespentel . '[timeunit]', $completiontimespentenabledel, 'notchecked');
 
         return [$completionendreachedel, $completiontimespentgroupel];
     }

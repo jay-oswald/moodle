@@ -3808,7 +3808,7 @@ class custom_menu_item implements renderable, templatable {
  * of custom_menu_item nodes that can be rendered by the core renderer.
  *
  * To configure the custom menu:
- *     Settings: Administration > Appearance > Themes > Theme settings
+ *     Settings: Administration > Appearance > Advanced theme settings
  *
  * @copyright 2010 Sam Hemelryk
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -4431,7 +4431,7 @@ class action_menu implements renderable, templatable {
     /**
      * Classes for the trigger menu
      */
-    const DEFAULT_KEBAB_TRIGGER_CLASSES = 'btn btn-icon d-flex align-items-center justify-content-center';
+    const DEFAULT_KEBAB_TRIGGER_CLASSES = 'btn btn-icon d-flex align-items-center justify-content-center no-caret';
 
     /**
      * Setup trigger as in the kebab menu.

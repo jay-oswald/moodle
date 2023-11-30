@@ -375,14 +375,6 @@ body:not(.editing)  .sitetopic ul.section {
     margin: 2px 5px 2px 5px;
 }
 
-.course-content .section-summary .section-summary-activities .activity-count {
-    color: $text-muted;
-    font-size: $font-size-sm;
-    margin: 3px;
-    white-space: nowrap;
-    display: inline-block;
-}
-
 .course-content .section-summary .summary {
     margin-top: 5px;
 }
@@ -605,13 +597,6 @@ body:not(.editing)  .sitetopic ul.section {
     margin-left: 0;
 }
 
-.path-course-view li.activity form.togglecompletion .btn {
-    padding: 0;
-}
-.path-course-view li.activity form.togglecompletion img {
-    max-width: none; /* The width is 0 so ensure we don't end up with a relative max-width */
-}
-
 .path-course-view {
     &.editing {
         li.activity span.autocompletion img {
@@ -620,15 +605,6 @@ body:not(.editing)  .sitetopic ul.section {
             margin-left: $spacer * 0.5;
         }
     }
-}
-
-.path-course-view li.activity form.togglecompletion .ajaxworking {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    right: 22px;
-    top: 3px;
-    background: url([[pix:i/ajaxloader]]) no-repeat;
 }
 
 li.section.hidden span.commands a.editing_hide,
@@ -974,7 +950,7 @@ span.editinstructions {
             }
 
             .without-actions {
-                color: #333;
+                color: $course-cat-without-actions-color;
             }
 
             .idnumber {
@@ -1018,7 +994,7 @@ span.editinstructions {
             .categoryname {
                 display: inline-block;
                 margin-left: 1em;
-                color: #a1a1a8;
+                color: $course-listing-color;
             }
 
             .coursename {
@@ -1050,7 +1026,7 @@ span.editinstructions {
         }
 
         .course-count {
-            color: #a1a1a8;
+            color: $course-listing-color;
             margin-right: 2rem;
             min-width: 3.5em;
             display: inline-block;
@@ -1274,7 +1250,8 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
 // Activity completion button custom styling mixin.
 @mixin completion-button() {
     &.btn {
-        border: $border-width solid $gray-400;
+        @include button-variant($white, $gray-400, $gray-600);
+        min-height: map-get($iconsizes, 5);
         font-weight: bold;
         @include border-radius();
         .icon {
@@ -1284,7 +1261,11 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
     @each $color, $value in $theme-colors {
         &.btn-#{$color} {
             $bg-color: theme-color-level($color, $alert-bg-level);
-            @include alert-variant($bg-color, $bg-color, $value);
+            @include button-variant($bg-color, $bg-color, $value);
+            color: theme-color-level($color, $alert-color-level);
+            &:hover {
+                color: color-yiq($value);
+            }
         }
     }
 }
@@ -1297,6 +1278,9 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
     border-width: $border-width;
     .pluscontainer {
         border: $border-width solid $primary-light-border;
+        border-radius: 50%;
+        width: map-get($iconsizes, 5);
+        height: map-get($iconsizes, 5);
     }
     &:hover {
         cursor: pointer;
@@ -1316,8 +1300,17 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
     @include border-radius($activity-item-border-radius);
 }
 
+/* Add section */
+
 .changenumsections {
     border-top: $border-width solid $primary-light-border;
+}
+
+.add-sections {
+    .icon {
+        margin-right: map-get($spacers, 1);
+        font-size: inherit;
+    }
 }
 
 /* Section Expand all/Collapse all */
@@ -1349,6 +1342,13 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
     padding-left: 0;
     border-bottom: $border-width solid $border-color;
 
+    .sectionname > a {
+        color: $gray-900;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
     &:last-child:not(.section-summary) {
         border-bottom: 0;
     }
@@ -1367,11 +1367,6 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         }
     }
 
-    .inplaceeditable {
-        display: flex;
-        align-items: center;
-    }
-
     .summarytext {
         // Add rounded borders to images.
         img {
@@ -1384,20 +1379,19 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         margin-top: map-get($spacers, 2);
         padding: map-get($spacers, 1) map-get($spacers, 3);
         background-color: $gray-200;
+        @include font-size($small-font-size);
         @include border-radius($activity-item-border-radius);
-
         .editavailability {
-            padding: map-get($spacers, 1) map-get($spacers, 3);
-            @include border-radius(1rem);
-
-            :hover {
-                background-color: $gray-400;
-            }
-
             a {
-                @include border-radius(0.5rem);
-                color: $body-color;
-                text-decoration: none;
+                @include border-radius();
+                font-weight: bold;
+                &:hover {
+                    background-color: $gray-400;
+                }
+                .icon {
+                    font-size: inherit;
+                    margin-right: map-get($spacers, 1);
+                }
             }
         }
     }
@@ -1412,12 +1406,22 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         }
     }
 
-    .section-summary-activities .activity-count {
-        color: $text-muted;
-        font-size: $font-size-sm;
-        margin: 3px;
-        white-space: nowrap;
-        display: inline-block;
+    .section-summary-activities {
+        .icon {
+            width: inherit;
+            color: $primary;
+        }
+    }
+
+    .section-summary-activities + .section {
+        border-top: $border-width solid $border-color;
+        margin-top: map-get($spacers, 3) !important;  // stylelint-disable-line declaration-no-important
+        padding-top: map-get($spacers, 3) !important; // stylelint-disable-line declaration-no-important
+    }
+
+    .section_goto .icon {
+        font-size: $font-size-lg;
+        color: $primary;
     }
 
     // Legacy dndupload classes. Can be removed in 4.4 as part of MDL-77124.
@@ -1534,13 +1538,11 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         .actions {
             position: relative;
         }
-        .dropdown-toggle::after {
-            display: none;
-        }
         // Override '.btn.btn-icon' styles from buttons.scss to make action menu buttons smaller.
         .action-menu .btn.btn-icon {
-            height: ($icon-width + 15px);
-            width: ($icon-width + 15px);
+            height: map-get($iconsizes, 5);
+            width: map-get($iconsizes, 5);
+            @include border-radius();
         }
     }
 
@@ -1559,7 +1561,6 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
             margin-top: map-get($spacers, 2);
         }
     }
-
     .activity-name-area {
         grid-area: name;
         // Prevent bootstrap strech-link from covering the inplace editable button using z-index.
@@ -1568,6 +1569,7 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
                 margin-left: 0.5rem;
             }
             .inplaceeditable .quickeditlink {
+                position: relative;
                 z-index: 2;
                 margin-left: 0.5rem;
             }
@@ -1622,18 +1624,30 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         grid-area: groupmode;
         justify-self: end;
         .groupmode-information {
-            height: ($icon-width + 15px);
-            .groupmode-icon-info {
-                display: none;
-            }
+            height: map-get($iconsizes, 5);
+            width: map-get($iconsizes, 5);
+            @include border-radius();
+        }
+        .groupmode-icon-info {
+            display: none;
         }
         @include media-breakpoint-down(xs) {
             width: 100%;
             margin-top: map-get($spacers, 2);
             padding-top: map-get($spacers, 2);
             border-top: $border-width solid $border-color;
-            .groupmode-information .groupmode-icon-info {
+            .groupmode-information {
+                width: auto;
+                font-size: inherit;
+                padding: 0 map-get($spacers, 2);
+            }
+            .groupmode-icon-info {
                 display: inline;
+            }
+            // Disable v-parent-focus behaviour on small devices to always show the groupmode button.
+            .v-parent-focus {
+                opacity: 1;
+                visibility: visible;
             }
         }
     }
@@ -1674,12 +1688,6 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
         margin-top: map-get($spacers, 2);
         padding-top: map-get($spacers, 2);
         border-top: $border-width solid $border-color;
-    }
-
-    .inplaceeditable {
-        display: flex;
-        flex: 0 1 auto;
-        max-width: 100%;
     }
 
     .no-overflow {

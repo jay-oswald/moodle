@@ -255,7 +255,6 @@ function get_local_referer($stripquery = true) {
  *     - and output the params as hidden fields to be output within a form
  *
  * @copyright 2007 jamiesensei
- * @link http://docs.moodle.org/dev/lib/weblib.php_moodle_url See short write up here
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @package core
  */
@@ -2417,7 +2416,7 @@ function link_arrow_right($text, $url='', $accesshide=false, $addclass='', $addp
     if (!$url) {
         $arrowclass .= $addclass;
     }
-    $arrow = '<span class="'.$arrowclass.'">'.$OUTPUT->rarrow().'</span>';
+    $arrow = '<span class="'.$arrowclass.'" aria-hidden="true">'.$OUTPUT->rarrow().'</span>';
     $htmltext = '';
     if ($text) {
         $htmltext = '<span class="arrow_text">'.$text.'</span>&nbsp;';
@@ -2459,7 +2458,7 @@ function link_arrow_left($text, $url='', $accesshide=false, $addclass='', $addpa
     if (! $url) {
         $arrowclass .= $addclass;
     }
-    $arrow = '<span class="'.$arrowclass.'">'.$OUTPUT->larrow().'</span>';
+    $arrow = '<span class="'.$arrowclass.'" aria-hidden="true">'.$OUTPUT->larrow().'</span>';
     $htmltext = '';
     if ($text) {
         $htmltext = '&nbsp;<span class="arrow_text">'.$text.'</span>';
@@ -2560,7 +2559,6 @@ function print_collapsible_region_start($classes, $id, $caption, $userpref = '',
 
     // Work out the initial state.
     if (!empty($userpref) and is_string($userpref)) {
-        user_preference_allow_ajax_update($userpref, PARAM_BOOL);
         $collapsed = get_user_preferences($userpref, $default);
     } else {
         $collapsed = $default;
@@ -3211,7 +3209,6 @@ function print_maintenance_message() {
 
     $PAGE->set_pagetype('maintenance-message');
     $PAGE->set_pagelayout('maintenance');
-    $PAGE->set_title(strip_tags($SITE->fullname));
     $PAGE->set_heading($SITE->fullname);
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('sitemaintenance', 'admin'));

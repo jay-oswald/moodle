@@ -47,7 +47,8 @@ $drawer-bg: darken($body-bg, 5%) !default;
     [data-region="drawer"] {
         padding: $drawer-padding-x $drawer-padding-y;
     }
-    .jsenabled .btn-footer-popover {
+    .jsenabled .btn-footer-popover,
+    .jsenabled .btn-footer-communication {
         @include transition(0.2s);
     }
 }
@@ -160,7 +161,16 @@ $right-drawer-width: 320px;
 
 @mixin drawer() {
     background-color: $drawer-bg-color;
-    z-index: $zindex-fixed;
+    // Drawers has a z-index higher than the page content,
+    // lower than the top navbar and the sticky footer,
+    // and lower to the message drawer.
+    z-index: $zindex-sticky - 5;
+
+    @include media-breakpoint-down(md) {
+        // In small screens the drawer goes over the top navbar with a modal with a backdrop effect.
+        z-index: $zindex-fixed + 5;
+    }
+
     position: fixed;
     height: 100vh;
     top: 0;
@@ -222,8 +232,7 @@ $right-drawer-width: 320px;
 
 @include media-breakpoint-up(lg) {
     .drawer {
-        // Make sure that in large screens the drawer goes under the drop down menus.
-        z-index: $zindex-dropdown - 1;
+
         // Workaround to display the skip link elements from the blocks drawer infront of the navbar.
         // As the skip link is in a fixed position and z-index for this element is ignored
         // then it is hidden behind the top navbar.

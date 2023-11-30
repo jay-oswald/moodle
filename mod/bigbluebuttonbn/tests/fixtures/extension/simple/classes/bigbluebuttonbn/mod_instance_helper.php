@@ -35,7 +35,8 @@ class mod_instance_helper extends \mod_bigbluebuttonbn\local\extension\mod_insta
         global $DB;
         $DB->insert_record('bbbext_simple', (object) [
             'bigbluebuttonbnid' => $bigbluebuttonbn->id,
-            'newfield' => 2
+            'newfield' => $bigbluebuttonbn->newfield ?? '',
+            'completionextraisehandtwice' => $bigbluebuttonbn->completionextraisehandtwice ?? '',
         ]);
     }
 
@@ -49,8 +50,18 @@ class mod_instance_helper extends \mod_bigbluebuttonbn\local\extension\mod_insta
         $record = $DB->get_record('bbbext_simple', [
             'bigbluebuttonbnid' => $bigbluebuttonbn->id,
         ]);
-        $record->newfield = $bigbluebuttonbn->newfield;
-        $DB->update_record('bbbext_simple', $record);
+        // Just in case the instance was created before the extension was installed.
+        if (empty($record)) {
+            $record = new stdClass();
+            $record->bigbluebuttonbnid = $bigbluebuttonbn->id;
+            $record->newfield = $bigbluebuttonbn->newfield ?? '';
+            $record->completionextraisehandtwice = $bigbluebuttonbn->completionextraisehandtwice ?? 0;
+            $DB->insert_record('bbbext_simple', $record);
+        } else {
+            $record->newfield = $bigbluebuttonbn->newfield ?? '';
+            $record->completionextraisehandtwice = $bigbluebuttonbn->completionextraisehandtwice ?? 0;
+            $DB->update_record('bbbext_simple', $record);
+        }
     }
 
     /**
@@ -63,5 +74,13 @@ class mod_instance_helper extends \mod_bigbluebuttonbn\local\extension\mod_insta
         $DB->delete_records('bbbext_simple', [
             'bigbluebuttonbnid' => $id,
         ]);
+    }
+
+    /**
+     * Get any join table name that is used to store additional data for the instance.
+     * @return string[]
+     */
+    public function get_join_tables(): array {
+        return ['bbbext_simple'];
     }
 }

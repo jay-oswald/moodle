@@ -382,24 +382,24 @@ Feature: We can use calculated grade totals
       | Aggregation          | Natural |
       | Exclude empty grades | 0       |
     And I navigate to "Setup > Gradebook setup" in the course gradebook
-    And I press "Add category"
+    And I choose the "Add category" item in the "Add" action menu
     And I set the following fields to these values:
       | Category name | Sub category 3 |
       | Aggregation | Natural |
       | Drop the lowest | 1 |
     And I click on "Save" "button" in the "New category" "dialogue"
     And I wait until the page is ready
-    And I press "Add grade item"
+    And I choose the "Add grade item" item in the "Add" action menu
     And I set the following fields to these values:
       | Item name | Manual item 1 |
       | Grade category | Sub category 3 |
     And I click on "Save" "button" in the "New grade item" "dialogue"
-    And I press "Add grade item"
+    And I choose the "Add grade item" item in the "Add" action menu
     And I set the following fields to these values:
       | Item name | Manual item 2 |
       | Grade category | Sub category 3 |
     And I click on "Save" "button" in the "New grade item" "dialogue"
-    And I press "Add grade item"
+    And I choose the "Add grade item" item in the "Add" action menu
     And I set the following fields to these values:
       | Item name | Manual item 3 |
       | Grade category | Sub category 3 |
@@ -443,7 +443,7 @@ Feature: We can use calculated grade totals
     And I turn editing mode off
     And I should see "250.00 (25.25 %)" in the ".course" "css_element"
     And I navigate to "Setup > Gradebook setup" in the course gradebook
-    And I press "Add category"
+    And I choose the "Add category" item in the "Add" action menu
     And I set the following fields to these values:
       | Category name | Sub sub category 1 |
       | Parent category | Sub category 3 |
@@ -453,40 +453,40 @@ Feature: We can use calculated grade totals
     And I should see "270.00 (24.77 %)" in the ".course" "css_element"
 
   Scenario: Natural aggregation from the setup screen
-    And I navigate to "Setup > Gradebook setup" in the course gradebook
-
+    When I navigate to "Setup > Gradebook setup" in the course gradebook
     And I set the following settings for grade item "Course 1" of type "course" on "setup" page:
       | Aggregation          | Natural |
     And I set the following settings for grade item "Sub category 1" of type "category" on "setup" page:
       | Aggregation          | Natural |
     And I set the following settings for grade item "Sub category 2 &" of type "category" on "setup" page:
       | Aggregation          | Natural |
-
-    And I set the field "Override weight of Test assignment one &" to "1"
     And the field "Weight of Test assignment one &" matches value "37.975"
-    And I set the field "Weight of Test assignment one &" to "10"
-
-    And I set the field "Override weight of Test assignment two" to "1"
     And the field "Weight of Test assignment two" matches value "12.658"
+    And the field "Weight of Sub category 1" matches value "5.696"
+    And the field "Weight of Sub category 2" matches value "5.696"
+    And I set the field "Override weight of Test assignment one &" to "1"
+    And I set the field "Weight of Test assignment one &" to "10"
+    And the field "Weight of Test assignment two" matches value "18.367"
+    And the field "Weight of Sub category 1" matches value "8.265"
+    And the field "Weight of Sub category 2" matches value "8.265"
+    And I set the field "Override weight of Test assignment two" to "1"
     And I set the field "Override weight of Test assignment two" to "0"
-
-    And I set the field "Override weight of Test assignment six" to "1"
     And the field "Weight of Test assignment six" matches value "22.222"
+    And I set the field "Override weight of Test assignment six" to "1"
     And I set the field "Weight of Test assignment six" to "50"
     And I set the field "Override weight of Test assignment six" to "0"
-
-    And I set the field "Override weight of Test assignment ten" to "1"
+    And the field "Weight of Test assignment six" matches value "22.222"
     And the field "Weight of Test assignment ten" matches value "33.333"
+    And I set the field "Override weight of Test assignment ten" to "1"
     And I set the field "Weight of Test assignment ten" to "50"
-
     And I set the field "Override weight of Sub category 1" to "1"
-    And the field "Weight of Sub category 1" matches value "5.696"
     And I set the field "Weight of Sub category 1" to "15"
-
-    When I press "Save changes"
-    And I set the field "Override weight of Test assignment two" to "1"
-    And I set the field "Override weight of Test assignment six" to "1"
-
+    Then the field "Weight of Test assignment one &" matches value "10.0"
+    And the field "Weight of Test assignment two" matches value "16.854"
+    And the field "Weight of Test assignment six" matches value "22.222"
+    And the field "Weight of Test assignment ten" matches value "50.0"
+    And the field "Weight of Sub category 1" matches value "15.0"
+    And I press "Save changes"
     Then the field "Weight of Test assignment one &" matches value "10.0"
     And the field "Weight of Test assignment two" matches value "16.854"
     And the field "Weight of Test assignment six" matches value "22.222"
@@ -496,9 +496,9 @@ Feature: We can use calculated grade totals
     And I set the field "Override weight of Test assignment two" to "0"
     And I set the field "Override weight of Test assignment six" to "0"
     And I set the field "Override weight of Sub category 1" to "0"
+    And the field "Weight of Test assignment one &" matches value "37.975"
+    And the field "Weight of Sub category 1" matches value "5.696"
     And I press "Save changes"
-    And I set the field "Override weight of Test assignment one &" to "1"
-    And I set the field "Override weight of Sub category 1" to "1"
     And the field "Weight of Test assignment one &" matches value "37.975"
     And the field "Weight of Sub category 1" matches value "5.696"
     And I reset weights for grade category "Sub category 2 &"
@@ -521,8 +521,10 @@ Feature: We can use calculated grade totals
     And "//span[@class='grateitemheader'][@title='Link to Test assignment one &amp; Assignment']" "xpath_element" should not exist
     And I set the field "Override weight of Test assignment one &" to "1"
     And I set the field "Weight of Test assignment one &" to "0"
+    And I should see "490.00" in the "Course total" "table_row"
     And I set the field "Override weight of Test assignment six" to "1"
     And I set the field "Weight of Test assignment six" to "0"
+    And I should see "480.00" in the "Course total" "table_row"
     And I set the field "Override weight of Test assignment nine" to "1"
     And I set the field "Weight of Test assignment nine" to "100"
     And I press "Save changes"
