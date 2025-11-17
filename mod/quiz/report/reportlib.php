@@ -160,37 +160,15 @@ function quiz_report_qm_filter_select($quiz, $quizattemptsalias = 'quiza') {
  * @return string sql to test if this is an attempt that will contribute towards the graded of the user
  */
 function quiz_report_grade_method_sql($grademethod, $quizattemptsalias = 'quiza') {
-    switch ($grademethod) {
-        case QUIZ_GRADEHIGHEST :
-            return "($quizattemptsalias.state = 'finished' AND NOT EXISTS (
-                           SELECT 1 FROM {quiz_attempts} qa2
-                            WHERE qa2.quiz = $quizattemptsalias.quiz AND
-                                qa2.userid = $quizattemptsalias.userid AND
-                                 qa2.state = 'finished' AND (
-                COALESCE(qa2.sumgrades, 0) > COALESCE($quizattemptsalias.sumgrades, 0) OR
-               (COALESCE(qa2.sumgrades, 0) = COALESCE($quizattemptsalias.sumgrades, 0) AND qa2.attempt < $quizattemptsalias.attempt)
-                                )))";
-
-        case QUIZ_GRADEAVERAGE :
-            return '';
-
-        case QUIZ_ATTEMPTFIRST :
-            return "($quizattemptsalias.state = 'finished' AND NOT EXISTS (
-                           SELECT 1 FROM {quiz_attempts} qa2
-                            WHERE qa2.quiz = $quizattemptsalias.quiz AND
-                                qa2.userid = $quizattemptsalias.userid AND
-                                 qa2.state = 'finished' AND
-                               qa2.attempt < $quizattemptsalias.attempt))";
-
-        case QUIZ_ATTEMPTLAST :
-            return "($quizattemptsalias.state = 'finished' AND NOT EXISTS (
-                           SELECT 1 FROM {quiz_attempts} qa2
-                            WHERE qa2.quiz = $quizattemptsalias.quiz AND
-                                qa2.userid = $quizattemptsalias.userid AND
-                                 qa2.state = 'finished' AND
-                               qa2.attempt > $quizattemptsalias.attempt))";
-    }
+    return match($grademethod){
+        QUIZ_GRADEHIGHEST => "$quizattemptsalias.gradehighest = 1",
+        QUIZ_GRADEAVERAGE => '',
+        QUIZ_ATTEMPTFIRST => "$quizattemptsalias.attemptfirst = 1",
+        QUIZ_ATTEMPTLAST  => "$quizattemptsalias.attemptlast = 1",
+        default           => throw new \Exception('Unknown grademethod')
+    };
 }
+
 
 /**
  * Get the number of students whose score was in a particular band for this quiz.

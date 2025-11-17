@@ -138,5 +138,29 @@ function xmldb_quiz_upgrade($oldversion) {
     // Automatically generated Moodle v4.5.0 release upgrade line.
     // Put any upgrade step following this.
 
+    if ($oldversion < 2025111400){
+
+        $table = new xmldb_table('quiz_attempts');
+
+        $field = new xmldb_field('gradehighest', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('attemptfirst', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('attemptlast', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        \mod_quiz\grade_best_attempt::calculate_all(true);
+
+        upgrade_mod_savepoint(true, 2025111400, 'quiz');
+    }
+
     return true;
 }
