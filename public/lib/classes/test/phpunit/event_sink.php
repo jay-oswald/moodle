@@ -75,6 +75,39 @@ class event_sink {
     public function clear() {
         $this->events = [];
     }
+
+    /**
+     * Returns the position of the first event of the given type in the list of events.
+     *
+     * @param string $event The class name of the event to search for.
+     * @return int|null The position of the event in the list, or null if not
+     */
+    public function event_position(string $event): ?int {
+        foreach ($this->events as $i => $e) {
+            if ($e instanceof $event) {
+                return $i;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the first of a given event type, or the first event if no type is given.
+     *
+     * @param string|null $event The class name of the event to search for, or null to return the first event.
+     * @return \core\event\base|null The event, or null if not found
+     */
+    public function first_event(?string $event = null): ?\core\event\base {
+        if (!$event) {
+            return reset($this->events) ?: null;
+        }
+
+        $position = $this->event_position($event);
+        if ($position !== null) {
+            return $this->events[$position];
+        }
+        return null;
+    }
 }
 
 // Alias this class to the old name.

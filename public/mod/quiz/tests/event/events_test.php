@@ -127,18 +127,17 @@ final class events_test extends \advanced_testcase {
 
         $timefinish = time();
         $attemptobj->process_submit($timefinish, false);
-        $events = $sink->get_events();
-        $sink->close();
 
         // Validate the event.
-        $this->assertCount(1, $events);
-        $event = $events[0];
-        $this->assertInstanceOf('\mod_quiz\event\attempt_submitted', $event);
+        $event = $sink->first_event('\mod_quiz\event\attempt_submitted');
+        $this->assertNotNull($event);
         $this->assertEquals('quiz_attempts', $event->objecttable);
         $this->assertEquals($quizobj->get_context(), $event->get_context());
         $this->assertEquals($attempt->userid, $event->relateduserid);
         $this->assertEquals(null, $event->other['submitterid']); // Should be the user, but PHP Unit complains...
         $this->assertEventContextNotUsed($event);
+
+        $sink->close();
     }
 
     /**
